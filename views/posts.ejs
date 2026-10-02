@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Blog</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">CMS<span>Blog</span></div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/posts/new" class="nav-create">+ Create Post</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <span class="eyebrow">CONTENT MANAGEMENT SYSTEM</span>
+                <h1>Share ideas.<br>Build your blog.</h1>
+                <p>A simple and clean space to create, discover, and read posts powered by Node.js, Express, EJS and MongoDB.</p>
+            </div>
+        </section>
+
+        <div class="page-header">
+            <div>
+                <h1>Latest Posts</h1>
+                <p>Explore the latest content from your blog.</p>
+            </div>
+            <a href="/posts/new" class="btn btn-primary">+ Create Post</a>
+        </div>
+
+        <div class="search-box">
+            <form action="/" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Search posts by title..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <% if (posts.length === 0) { %>
+            <div class="empty">
+                <h2>No Posts Found</h2>
+                <p>There are no posts available. Create your first post!</p>
+                <a href="/posts/new" class="btn btn-primary">Create First Post</a>
+            </div>
+        <% } else { %>
+            <div class="posts-grid">
+                <% posts.forEach(post => { %>
+                    <article class="post-card">
+                        <h2><%= post.title %></h2>
+                        <div class="post-meta">
+                            By <strong><%= post.author %></strong> • <%= new Date(post.createdAt).toLocaleDateString() %>
+                        </div>
+                        <p class="post-preview"><%= post.content.length > 160 ? post.content.substring(0, 160) + "..." : post.content %></p>
+                        <div class="card-actions">
+                            <a href="/posts/<%= post._id %>" class="btn btn-primary">Read More →</a>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+
+    <footer class="footer">© 2026 CMS Blog • Built with Node.js, Express, EJS & MongoDB</footer>
+</body>
+</html>
